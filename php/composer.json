@@ -1,0 +1,25 @@
+{
+    "name": "byivo/trivia",
+    "description": "refatoring the trivia legacy code kata",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ivo",
+            "email": "irbatistela@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+             "Trivia\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Test\\Trivia\\": "test/"
+        }
+    },
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^7.5"
+    }
+}
