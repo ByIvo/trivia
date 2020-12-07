@@ -6,6 +6,7 @@ use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Trivia\Game;
 use Trivia\NotEnoughPlayersException;
+use Trivia\TooManyPlayersException;
 
 class GameTest extends TestCase {
 
@@ -40,5 +41,19 @@ class GameTest extends TestCase {
 
 		$this->expectException(NotEnoughPlayersException::class);
 		$game->roll("6");
+	}
+
+	/** @test */
+	public function shouldNotAllowPlaying_WhenHavingMoreThanSixPlayers(): void {
+		$game = new Game();
+		$game->add('first player');
+		$game->add('second player');
+		$game->add('third player');
+		$game->add('fourth player');
+		$game->add('fifth player');
+		$game->add('sixth player');
+
+		$this->expectException(TooManyPlayersException::class);
+		$game->add('seventh player');
 	}
 }

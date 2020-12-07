@@ -49,6 +49,10 @@ class Game {
 	}
 
 	function add($playerName) {
+    	if ($this->hasEnoughPlayers()) {
+    		throw new TooManyPlayersException();
+	    }
+
 	   array_push($this->players, $playerName);
 	   $this->places[$this->howManyPlayers()] = 0;
 	   $this->purses[$this->howManyPlayers()] = 0;
@@ -57,6 +61,10 @@ class Game {
 	    echoln($playerName . " was added");
 	    echoln("They are player number " . count($this->players));
 		return true;
+	}
+
+	private function hasEnoughPlayers() {
+		return $this->howManyPlayers() === 6;
 	}
 
 	function howManyPlayers() {
@@ -103,6 +111,7 @@ class Game {
 
 	}
 
+
 	function  askQuestion() {
 		if ($this->currentCategory() == "Pop")
 			echoln(array_shift($this->popQuestions));
@@ -113,7 +122,6 @@ class Game {
 		if ($this->currentCategory() == "Rock")
 			echoln(array_shift($this->rockQuestions));
 	}
-
 
 	function currentCategory() {
 		if ($this->places[$this->currentPlayer] == 0) return "Pop";
@@ -168,6 +176,7 @@ class Game {
 		}
 	}
 
+
 	function wrongAnswer(){
 		echoln("Question was incorrectly answered");
 		echoln($this->players[$this->currentPlayer] . " was sent to the penalty box");
@@ -177,7 +186,6 @@ class Game {
 		if ($this->currentPlayer == count($this->players)) $this->currentPlayer = 0;
 		return true;
 	}
-
 
 	function didPlayerWin() {
 		return !($this->purses[$this->currentPlayer] == 6);
