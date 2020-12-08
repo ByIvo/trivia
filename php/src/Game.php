@@ -78,27 +78,31 @@ class Game {
         echoln("They have rolled a " . $roll);
 
         if ($this->isCurrentPlayerInPenaltyBox()) {
-            if ($roll % 2 != 0) {
-                $this->inPenaltyBox[$this->currentPlayer] = false;
-
-                echoln($this->players[$this->currentPlayer] . " is getting out of the penalty box");
-                $this->places[$this->currentPlayer] = $this->places[$this->currentPlayer] + $roll;
-                if ($this->places[$this->currentPlayer] > 11) $this->places[$this->currentPlayer] = $this->places[$this->currentPlayer] - 12;
-
-                echoln($this->players[$this->currentPlayer] . "'s new location is " . $this->places[$this->currentPlayer]);
-                echoln("The category is " . $this->currentCategory());
-                $this->askQuestion();
-            } else {
+            if ($hadRolledAnEvenNumber = $roll % 2 === 0) {
                 echoln($this->players[$this->currentPlayer] . " is not getting out of the penalty box");
+                return;
             }
 
-        } else {
-            $this->places[$this->currentPlayer] = $this->places[$this->currentPlayer] + $roll;
-            if ($this->places[$this->currentPlayer] > 11) $this->places[$this->currentPlayer] = $this->places[$this->currentPlayer] - 12;
+            $this->leavePenaltyBox();
+            echoln($this->players[$this->currentPlayer] . " is getting out of the penalty box");
+        }
 
-            echoln($this->players[$this->currentPlayer] . "'s new location is " . $this->places[$this->currentPlayer]);
-            echoln("The category is " . $this->currentCategory());
-            $this->askQuestion();
+        $this->walkNMorePlaces($roll);
+
+        echoln($this->players[$this->currentPlayer] . "'s new location is " . $this->places[$this->currentPlayer]);
+        echoln("The category is " . $this->currentCategory());
+        $this->askQuestion();
+    }
+
+    private function leavePenaltyBox(): void {
+        $this->inPenaltyBox[$this->currentPlayer] = false;
+    }
+
+    private function walkNMorePlaces($roll): void {
+        $this->places[ $this->currentPlayer ] = $this->places[ $this->currentPlayer ] + $roll;
+
+        if ($this->places[ $this->currentPlayer ] > 11) {
+            $this->places[ $this->currentPlayer ] = $this->places[ $this->currentPlayer ] - 12;
         }
     }
 
