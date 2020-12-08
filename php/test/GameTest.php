@@ -17,17 +17,17 @@ class GameTest extends TestCase {
 		$game->add('Renata');
 
 		$game->roll("6");
-		echo $game->wasCorrectlyAnswered();
-		echo $game->wasCorrectlyAnswered();
-		echo $game->wasCorrectlyAnswered();
-		echo $game->wasCorrectlyAnswered();
-		echo $game->wasCorrectlyAnswered();
-		echo $game->wasCorrectlyAnswered();
-		echo $game->wasCorrectlyAnswered();
-		echo $game->wasCorrectlyAnswered();
-		echo $game->wasCorrectlyAnswered();
-		echo $game->wasCorrectlyAnswered();
-		echo $game->wasCorrectlyAnswered();
+		$game->wasCorrectlyAnswered();
+		$game->wasCorrectlyAnswered();
+		$game->wasCorrectlyAnswered();
+		$game->wasCorrectlyAnswered();
+		$game->wasCorrectlyAnswered();
+		$game->wasCorrectlyAnswered();
+		$game->wasCorrectlyAnswered();
+		$game->wasCorrectlyAnswered();
+		$game->wasCorrectlyAnswered();
+		$game->wasCorrectlyAnswered();
+		$game->wasCorrectlyAnswered();
 		$winner = $game->wasCorrectlyAnswered();
 
 		//When answering correctly, the false is only returned when the game is over.
