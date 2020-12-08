@@ -79,4 +79,26 @@ class GameTest extends TestCase {
 
 		Assert::assertFalse($firstPlayerIsInJail = $game->inPenaltyBox[0]);
 	}
+
+    /** @test */
+    public function shouldNotLeaveJailAfterRollingAnEvenNumber(): void {
+        $game = new Game();
+        $game->add('first player');
+        $game->add('second player');
+
+        // first player rolls the dice and answers it wrongly
+        $game->roll(3);
+        $game->wrongAnswer();
+
+        Assert::assertTrue($firstPlayerIsInJail = $game->inPenaltyBox[0]);
+
+        // second player rolls the dice
+        $game->roll(3);
+        $game->wasCorrectlyAnswered();
+
+        // first player rolls the dice, takes an even result and does not leave the jail
+        $game->roll(2);
+
+        Assert::assertTrue($firstPlayerIsInJail = $game->inPenaltyBox[0]);
+    }
 }
