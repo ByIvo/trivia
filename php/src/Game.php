@@ -18,7 +18,6 @@ class Game {
     var $rockQuestions;
 
     var $currentPlayer = 0;
-    var $isGettingOutOfPenaltyBox;
 
     function  __construct(){
 
@@ -79,9 +78,9 @@ class Game {
 		echoln($this->players[$this->currentPlayer] . " is the current player");
 		echoln("They have rolled a " . $roll);
 
-		if ($this->inPenaltyBox[$this->currentPlayer]) {
+		if ($this->isCurrentPlayerInPenaltyBox()) {
 			if ($roll % 2 != 0) {
-				$this->isGettingOutOfPenaltyBox = true;
+				$this->inPenaltyBox[$this->currentPlayer] = false;
 
 				echoln($this->players[$this->currentPlayer] . " is getting out of the penalty box");
 			$this->places[$this->currentPlayer] = $this->places[$this->currentPlayer] + $roll;
@@ -94,7 +93,6 @@ class Game {
 				$this->askQuestion();
 			} else {
 				echoln($this->players[$this->currentPlayer] . " is not getting out of the penalty box");
-				$this->isGettingOutOfPenaltyBox = false;
 				}
 
 		} else {
@@ -137,54 +135,36 @@ class Game {
 	}
 
 	function wasCorrectlyAnswered() {
-		if ($this->inPenaltyBox[$this->currentPlayer]){
-			if ($this->isGettingOutOfPenaltyBox) {
-				echoln("Answer was correct!!!!");
-			$this->purses[$this->currentPlayer]++;
-				echoln($this->players[$this->currentPlayer]
-						. " now has "
-						.$this->purses[$this->currentPlayer]
-						. " Gold Coins.");
-
-				$winner = $this->didPlayerWin();
-				$this->currentPlayer++;
-				if ($this->currentPlayer == count($this->players)) $this->currentPlayer = 0;
-
-				return $winner;
-			} else {
-				$this->currentPlayer++;
-				if ($this->currentPlayer == count($this->players)) $this->currentPlayer = 0;
-				return true;
-			}
-
-
-
-		} else {
-
-			echoln("Answer was corrent!!!!");
-		$this->purses[$this->currentPlayer]++;
-			echoln($this->players[$this->currentPlayer]
-					. " now has "
-					.$this->purses[$this->currentPlayer]
-					. " Gold Coins.");
-
-			$winner = $this->didPlayerWin();
+		if ($this->isCurrentPlayerInPenaltyBox()){
 			$this->currentPlayer++;
 			if ($this->currentPlayer == count($this->players)) $this->currentPlayer = 0;
-
-			return $winner;
+			return true;
 		}
+
+		echoln("Answer was corrent!!!!");
+		$this->purses[$this->currentPlayer]++;
+		echoln($this->players[$this->currentPlayer] . " now has " . $this->purses[$this->currentPlayer] . " Gold Coins.");
+
+		$winner = $this->didPlayerWin();
+		$this->currentPlayer++;
+		if ($this->currentPlayer == count($this->players)) $this->currentPlayer = 0;
+
+		return $winner;
 	}
 
 
 	function wrongAnswer(){
 		echoln("Question was incorrectly answered");
 		echoln($this->players[$this->currentPlayer] . " was sent to the penalty box");
-	$this->inPenaltyBox[$this->currentPlayer] = true;
+		$this->inPenaltyBox[$this->currentPlayer] = true;
 
 		$this->currentPlayer++;
 		if ($this->currentPlayer == count($this->players)) $this->currentPlayer = 0;
 		return true;
+	}
+
+	private function isCurrentPlayerInPenaltyBox(): bool {
+		return (bool) $this->inPenaltyBox[$this->currentPlayer];
 	}
 
 	function didPlayerWin() {

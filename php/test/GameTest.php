@@ -56,4 +56,27 @@ class GameTest extends TestCase {
 		$this->expectException(TooManyPlayersException::class);
 		$game->add('seventh player');
 	}
+
+	/** @test */
+	public function shouldLeaveJailAfterRollingAnOddNumber(): void {
+		$game = new Game();
+		$game->add('first player');
+		$game->add('second player');
+
+		// first player rolls the dice
+		$game->roll(3);
+		$game->wrongAnswer();
+
+		Assert::assertTrue($firstPlayerIsInJail = $game->inPenaltyBox[0]);
+
+		// second player rolls the dice
+		$game->roll(3);
+		$game->wasCorrectlyAnswered();
+
+		// first player rolls the dice, takes an odd result and leaves the jail
+		$game->roll(5);
+		$game->wasCorrectlyAnswered();
+
+		Assert::assertFalse($firstPlayerIsInJail = $game->inPenaltyBox[0]);
+	}
 }
