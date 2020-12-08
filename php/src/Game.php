@@ -136,8 +136,7 @@ class Game {
 
 	function wasCorrectlyAnswered() {
 		if ($this->isCurrentPlayerInPenaltyBox()){
-			$this->currentPlayer++;
-			if ($this->currentPlayer == count($this->players)) $this->currentPlayer = 0;
+			$this->nextPlayer();
 			return true;
 		}
 
@@ -146,8 +145,7 @@ class Game {
 		echoln($this->players[$this->currentPlayer] . " now has " . $this->purses[$this->currentPlayer] . " Gold Coins.");
 
 		$winner = $this->didPlayerWin();
-		$this->currentPlayer++;
-		if ($this->currentPlayer == count($this->players)) $this->currentPlayer = 0;
+		$this->nextPlayer();
 
 		return $winner;
 	}
@@ -158,8 +156,7 @@ class Game {
 		echoln($this->players[$this->currentPlayer] . " was sent to the penalty box");
 		$this->inPenaltyBox[$this->currentPlayer] = true;
 
-		$this->currentPlayer++;
-		if ($this->currentPlayer == count($this->players)) $this->currentPlayer = 0;
+		$this->nextPlayer();
 		return true;
 	}
 
@@ -169,5 +166,12 @@ class Game {
 
 	function didPlayerWin() {
 		return !($this->purses[$this->currentPlayer] == 6);
+	}
+
+	private function nextPlayer(): void {
+		$this->currentPlayer++;
+		if ($this->currentPlayer == count($this->players)) {
+			$this->currentPlayer = 0;
+		}
 	}
 }
