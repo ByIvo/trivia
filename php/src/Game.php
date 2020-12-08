@@ -19,7 +19,7 @@ class Game {
 
     var $currentPlayer = 0;
 
-    function  __construct(){
+    function __construct(){
         $this->players = array();
         $this->places = array(0);
         $this->purses  = array(0);
@@ -69,8 +69,8 @@ class Game {
         return count($this->players);
     }
 
-    function  roll($roll) {
-            if (!$this->isPlayable()) {
+    function roll($roll) {
+        if (!$this->isPlayable()) {
             throw new NotEnoughPlayersException();
         }
 
@@ -102,7 +102,7 @@ class Game {
         }
     }
 
-    function  askQuestion() {
+    function askQuestion() {
         if ($this->currentCategory() == "Pop")
             echoln(array_shift($this->popQuestions));
         if ($this->currentCategory() == "Science")
